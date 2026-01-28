@@ -1,4 +1,5 @@
 import express from 'express';
+import validateBook from '../middleware/validateBook.js';
 
 const router = express.Router();
 
@@ -10,10 +11,18 @@ export default function createBookRoutes(bookController) {
   router.get('/books/:id', bookController.getById.bind(bookController));
 
   // POST /api/books
-  router.post('/books', bookController.create.bind(bookController));
+  router.post(
+    '/books',
+    validateBook,
+    bookController.create.bind(bookController)
+  );
 
   // PUT /api/books/:id
-  router.put('/books/:id', bookController.update.bind(bookController));
+  router.put(
+    '/books/:id',
+    validateBook,
+    bookController.update.bind(bookController)
+  );
 
   // DELETE /api/books/:id
   router.delete('/books/:id', bookController.delete.bind(bookController));

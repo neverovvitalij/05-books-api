@@ -28,11 +28,9 @@ class BookRepository {
 
     try {
       await writeFile(this.filePath, JSON.stringify(data, null, 2));
-      console.log('Das Buch wurde eingefügt');
       return book;
     } catch (error) {
-      console.log('Fehler beim Buch einfügen');
-      return false;
+      throw error;
     }
   }
 
@@ -41,7 +39,6 @@ class BookRepository {
 
     const indx = data.findIndex((b) => b.id === Number(id));
     if (indx === -1) {
-      console.log('Das Buch wurde nicht gefunden');
       return null;
     }
 
@@ -49,11 +46,9 @@ class BookRepository {
 
     try {
       await writeFile(this.filePath, JSON.stringify(data, null, 2));
-      console.log('Buch wurde geändert');
-      return book;
+      return data[indx];
     } catch (error) {
-      console.log('Fehler beim Buch ändern');
-      return false;
+      throw error;
     }
   }
 
@@ -70,11 +65,9 @@ class BookRepository {
 
     try {
       await writeFile(this.filePath, JSON.stringify(data, null, 2));
-      console.log('Buch wurde gelöscht');
       return true;
     } catch (error) {
-      console.log('Fehler beim Buch löschen');
-      return false;
+      throw error;
     }
   }
 }

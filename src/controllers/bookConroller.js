@@ -3,16 +3,16 @@ class BookController {
     this.bookService = bookService;
   }
 
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
       const books = await this.bookService.getAllBooks();
       res.status(200).json(books);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error);
     }
   }
 
-  async getById(req, res) {
+  async getById(req, res, next) {
     try {
       const { id } = req.params;
 
@@ -20,11 +20,11 @@ class BookController {
 
       res.status(200).json(book);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error);
     }
   }
 
-  async create(req, res) {
+  async create(req, res, next) {
     try {
       const bookData = req.body;
 
@@ -32,11 +32,11 @@ class BookController {
 
       res.status(201).json(book);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error);
     }
   }
 
-  async update(req, res) {
+  async update(req, res, next) {
     try {
       const { id } = req.params;
       const newBook = req.body;
@@ -45,11 +45,11 @@ class BookController {
 
       res.status(200).json(book);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error);
     }
   }
 
-  async delete(req, res) {
+  async delete(req, res, next) {
     try {
       const { id } = req.params;
 
@@ -57,7 +57,7 @@ class BookController {
 
       res.status(200).json({ message: 'true' });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error);
     }
   }
 }

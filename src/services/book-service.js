@@ -13,7 +13,9 @@ class BookService {
     const book = await this.bookRepository.findById(id);
 
     if (!book) {
-      throw new Error('Buch wurde NICHT gefunden');
+      const error = new Error('Das Buch wurde nicht gefunden');
+      error.statusCode = 404;
+      throw error;
     }
     return book;
   }
@@ -24,12 +26,7 @@ class BookService {
       ...bookData,
     };
 
-    const book = await this.bookRepository.create(newBook);
-
-    if (!book) {
-      throw new Error('Buch wurde NICHT zugefügt');
-    }
-    return book;
+    return await this.bookRepository.create(newBook);
   }
 
   async updateBook(idToUpdateBook, newBook) {
@@ -38,8 +35,10 @@ class BookService {
       newBook
     );
 
-    if (!updatedBook) {
-      throw new Error('Fehler beim buch ändern');
+    if (updatedBook === null) {
+      const error = new Error('Das Buch wurde nicht gefunden');
+      error.statusCode = 404;
+      throw error;
     }
 
     return updatedBook;
@@ -48,8 +47,10 @@ class BookService {
   async deleteBook(idToDeleteBook) {
     const res = await this.bookRepository.delete(idToDeleteBook);
 
-    if (!res) {
-      throw new Error('Buch wurde nicht gelöscht');
+    if (res === null) {
+      const error = new Error('Das Buch wurde nicht gefunden');
+      error.statusCode = 404;
+      throw error;
     }
 
     return true;

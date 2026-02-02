@@ -4,6 +4,7 @@ import BookService from './src/services/book-service.js';
 import BookController from './src/controllers/bookConroller.js';
 import createBookRoutes from './src/routes/bookRoutes.js';
 import errorHandler from './src/middleware/errorHandler.js';
+import notFound from './src/middleware/notFound.js';
 
 const app = express();
 
@@ -16,6 +17,8 @@ const bookConroller = new BookController(bookService);
 const bookRoutes = createBookRoutes(bookConroller);
 
 app.use('/api', bookRoutes);
+
+app.use(notFound);
 
 app.use(errorHandler);
 
